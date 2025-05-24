@@ -3,9 +3,15 @@ import { Appear, Button, Loading, Paragraph } from "arwes";
 import Clickable from "../components/Clickable";
 
 const Launch = props => {
-  const selectorBody = useMemo(() => {
-    return props.planets?.map(planet => 
-      <option value={planet.kepler_name} key={planet.kepler_name}>{planet.kepler_name}</option>
+   const selectorBody = useMemo(() => {
+    if (!props.planets || props.planets.length === 0) {
+      return <option value="">No planets available</option>;
+    }
+    
+    return props.planets.map(planet => 
+      <option value={planet.kepler_name} key={planet.kepler_name}>
+        {planet.kepler_name}
+      </option>
     );
   }, [props.planets]);
 
