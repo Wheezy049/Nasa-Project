@@ -1,23 +1,36 @@
 name: NASA Project CI
+
 on:
   push:
-      branches: [ main ]
+    branches: [ main ]
   pull_request:
-      branches: [ main ]
+    branches: [ main ]
+
 jobs:
-   build:
-      env:
-         CI: true
-      strategy:
-        matrix:
-           node-version: [16.x, 20.x]
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - name: Use Node.js version 20
-          uses: actions/setup-node@v3
-          with:
-             node-version: ${{ matrix.node-version }}
-        - run:  npm install
-        - run: npm run build --prefix client
-        - run: npm test
+  build:
+    env:
+      CI: true
+    strategy:
+      matrix:
+        node-version: [16.x, 20.x]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install backend dependencies (with devDependencies)
+      run: npm install --prefix server --include=dev
+
+    - name: Run backend tests
+      run: npm test --prefix server
+
+    - name: Install frontend dependencies
+      run: npm install --prefix client
+
+    - name: Build frontend
+      run: npm run build --prefix client
