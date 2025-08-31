@@ -24,10 +24,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install backend dependencies (with devDependencies)
-      run: npm install --prefix server --include=dev
+      working-directory: server
+      run: npm install --include=dev
 
     - name: Run backend tests
-      run: npm test --prefix server
+      working-directory: server
+      run: npm test
 
     - name: Install frontend dependencies
       run: npm install --prefix client
