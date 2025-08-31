@@ -25,7 +25,7 @@ jobs:
 
     - name: Install backend dependencies (with devDependencies)
       working-directory: server
-      run: npm install --include=dev
+      run: npm ci
 
     - name: Run backend tests
       working-directory: server
